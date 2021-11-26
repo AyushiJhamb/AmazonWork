@@ -21,9 +21,9 @@ namespace AmazonWork
         }
 
         [TestMethod]
-        public void searchTestCase()
+        public void verifysearchTestCase()
         {
-            _HomePage.VerifyContentCanBeSearched("java");
+            _HomePage.VerifyContentCanBeSearched(Constants.searchValue);
         }
 
         [TestMethod]
@@ -31,8 +31,21 @@ namespace AmazonWork
         {
             _HomePage.VerifyPosterPresent();
         }
+        
+        [TestMethod]
+        public void verifySearchResultTestCase()
+        {
+            _HomePage.VerifyContentCanBeSearched(Constants.searchValue);
+            _HomePage.VerifySearchResultIsPresent(Constants.searchValue);
+        }  
+        
+        [TestMethod]
+        public void verifyHomepageElementsTestCase()
+        {
+           _HomePage.VerifyHomepageElements(Constants.feedback, Constants.updates, Constants.mailFeedback, Constants.searchValue);
+        }
 
-       
+
         [ClassCleanup()]
         public static void ClassCleanUp()
         {

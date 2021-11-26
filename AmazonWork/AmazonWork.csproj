@@ -458,7 +458,7 @@
     <Compile Include="Modules\Common_Page.cs" />
     <Compile Include="Modules\Home_Page.cs" />
     <Compile Include="SeleniumCommonActions.cs" />
-    <Compile Include="Script.cs" />
+    <Compile Include="Tests\Script.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\ExtentReportUtility.cs" />
     <Compile Include="Utility\FileUtility.cs" />

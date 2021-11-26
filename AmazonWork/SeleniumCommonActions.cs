@@ -1,11 +1,14 @@
 ﻿using AmazonWork.Utility;
 using AventStack.ExtentReports;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 
 namespace AmazonWork
@@ -20,7 +23,6 @@ namespace AmazonWork
         {
             WebDriver = driver;
             Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-
         }
 
         public static SeleniumCommonActions GetInstance()
@@ -91,8 +93,6 @@ namespace AmazonWork
                         WaitForElementTillLocated(by);
                     }
                 }
-                Console.WriteLine("Retry count " + retryCount);
-                //  Reports.GetTest().Fail("Not found the element " + by);
                 throw exc;
             }
 
@@ -122,7 +122,6 @@ namespace AmazonWork
                         ClickElement(by);
                     }
                 }
-                Console.WriteLine("Retry count " + retryCount);
                 // Reports.GetTest().Fail("Not found the element " + by);
                 throw exc;
             }
@@ -146,6 +145,7 @@ namespace AmazonWork
                 element.Clear();
                 WaitForSecs(2);
                 element.SendKeys(input);
+                Assert.IsTrue(GetValue(by).Contains(input));
                 Test.Pass("Field " + by + " has been set " + " with text: " + input);
             }
             catch (WebDriverException exc)
@@ -295,7 +295,13 @@ namespace AmazonWork
             IWebElement webElement = WebDriver.FindElement(aBy);
             return webElement;
         }
-
+        
+        public ReadOnlyCollection<IWebElement> getWebElementsByLocator(By aBy)
+        {
+            ReadOnlyCollection<IWebElement> webElements = WebDriver.FindElements(aBy);
+            return webElements;
+        }
+        
         /// <summary>
         /// Gets the text of the web element
         /// </summary>
@@ -550,7 +556,7 @@ namespace AmazonWork
 
         public IList<IWebElement> ElementsPresent(string locator)
         {
-            IList<IWebElement> list = WebDriver.FindElements(By.XPath(locator));
+            IList<IWebElement> list = WebDriver.FindElements(By.CssSelector(locator));
             return list;
         }
 
@@ -589,12 +595,12 @@ namespace AmazonWork
 
             if (element.Displayed == true)
             {
-                Test.Pass(by + " is displayed ");
+                //Test.Pass(by + " is displayed ");
                 return true;
             }
             else
             {
-                Test.Log(Status.Fail, by + "not displayed");
+                //Test.Log(Status.Fail, by + "not displayed");
                 return false;
             }
             }
